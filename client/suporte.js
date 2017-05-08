@@ -11,7 +11,7 @@ socket.on('clientes', function(data){
 function render(data){
    var html = data.map(function(message, index){
        return (`
-            <div class="message">
+            <div class="message success">
                 <strong>${message.nickname}</strong>
                 <p>${message.text}</p>
             </div>
@@ -45,8 +45,6 @@ function addMessage(e) {
         text: document.getElementById('text').value
     };
 
-    document.getElementById('nickname').style.display = 'none';
-
     socket.emit('add-message', message);
 
     return false;
@@ -56,6 +54,8 @@ function escolhe(numero){
     var message = {
         id: numero
     }
+
+    console.log(numero);
 
     socket.emit('escolhe', message);
 }

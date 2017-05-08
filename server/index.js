@@ -18,12 +18,22 @@ io.on('connection', function (socket) {
     socket.on('add-message', function (data) {
 
         clienteEmAtendimento.map(function (cliente, index) {
-            if (cliente.socket.handshake.issued = socket.handshake.issued) {
+            if (cliente.socket.handshake.headers.cookie == socket.handshake.headers.cookie) {
                 cliente.messages.push(data);
                 cliente.socket.emit('messages', cliente.messages);
                 cliente.suporte.socket.emit('messages', cliente.messages);
+                console.log('Suporte: '+cliente.suporte);
             }
         }).join('');
+
+        suports.map(function (suporte, index) {
+            if (suporte.socket.handshake.headers.cookie == socket.handshake.headers.cookie) {
+                suporte.cliente.messages.push(data);
+                suporte.cliente.socket.emit('messages', suporte.cliente.messages);
+                suporte.socket.emit('messages', suporte.cliente.messages);
+            }
+        }).join('');
+
     });
 
     socket.on('disconnect', function () {
@@ -31,19 +41,24 @@ io.on('connection', function (socket) {
         var indexRemover = -1;
 
         clienteEmAtendimento.map(function (cliente, index) {
-            if (cliente.socket.handshake.issued = socket.handshake.issued) {
+            if (cliente.socket.handshake.headers.cookie == socket.handshake.headers.cookie) {
                 indexRemover = index;
+                console.log(cliente.socket.handshake.headers);
+                console.log(socket.id);
             }
         }).join('');
 
         if (indexRemover >= 0) {
             clienteEmAtendimento.splice(indexRemover, 1);
+            console.log('Achou cliente atendimento');
         }
         indexRemover = -1;
 
         clients.map(function (cliente, index) {
-            if (cliente.socket.handshake.issued = socket.handshake.issued) {
+            if (cliente.socket.handshake.headers.cookie == socket.handshake.headers.cookie) {
                 indexRemover = index;
+                console.log(cliente.socket.handshake.headers);
+                console.log(socket.id);
             }
         }).join('');
 
@@ -54,21 +69,23 @@ io.on('connection', function (socket) {
         indexRemover = -1;
 
         suports.map(function (suporte, index) {
-            if (suporte.socket.handshake.issued = socket.handshake.issued) {
+            if (suporte.socket.handshake.headers.cookie == socket.handshake.headers.cookie) {
                 indexRemover = index;
+                console.log(suporte.socket.id);
+                console.log(socket.id);
             }
         }).join('');
 
         if (indexRemover >= 0) {
             suports.splice(indexRemover, 1);
+            console.log('Achou Suporte');
         }
 
         io.sockets.emit('clientes', clientsEnvio);
     });
 
     clients.map(function (client, index) {
-        if (client.socket.handshake.host == socket.handshake.host &&
-            client.socket.handshake.issued == socket.handshake.issued) {
+        if (client.socket.handshake.headers.cookie == socket.handshake.headers.cookie) {
             socket.emit('messages', client.messages);
         }
 
@@ -82,8 +99,7 @@ io.on('connection', function (socket) {
                 var suport;
 
                 suports.map(function (suporte, index) {
-                    if (suporte.socket.handshake.host == socket.handshake.host &&
-                        suporte.socket.handshake.issued == socket.handshake.issued) {
+                    if (suporte.socket.handshake.headers.cookie == socket.handshake.headers.cookie) {
                         suport = suporte;
                         if (suporte.cliente && suporte.cliente.socket) {
                             suporte.cliente.socket.disconnect(true);
@@ -106,8 +122,6 @@ io.on('connection', function (socket) {
                         }
 
                         clients[data.id].messages.push(message);
-
-                        console.log(clients[data.id].messages);
 
                         clients[data.id].socket.emit('messages', clients[data.id].messages);
                         socket.emit('messages', clients[data.id].messages);

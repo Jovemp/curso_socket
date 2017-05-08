@@ -7,7 +7,7 @@ socket.on('messages', function(data){
 function render(data){
    var html = data.map(function(message, index){
        return (`
-            <div class="message">
+            <div class="message success">
                 <strong>${message.nickname}</strong>
                 <p>${message.text}</p>
             </div>
@@ -26,8 +26,6 @@ function addMessage(e) {
         nickname: document.getElementById('nickname').value,
         text: document.getElementById('text').value
     };
-
-    document.getElementById('nickname').style.display = 'none';
 
     socket.emit('add-message', message);
 

@@ -5,13 +5,15 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="with=device-width, initial-scale=1.0" />
 	<title>Chat com Socket.io com NodeJS</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script src="main.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="main.js"></script>
 
 	<style>
 		#messages {
-			width: 95%;
-			max-width: 400px;
+			width: 100%;
 			height: 350px;
 			overflow-y: scroll;
 			border: 1px solid #eee;
@@ -29,14 +31,28 @@
 </head>
 
 <body>
-	<h1>Chat com Socket.io com NodeJS</h1>
-	<div id="messages" style="display: none;"></div>
-    <form onsubmit="return addMessage(this);" style="display: none;" id="frmMessage">
-		<textarea id="text" placeholder="Messagem..."></textarea>
-		<input type="submit" value="Enviar" />
-	</form>
-	<form onsubmit="return entrar(this);" id="frmEntrar">
-		<input id="nickname" type="text" placeholder="Nick" />
-		<input type="submit" value="Enviar" />
-	</form>
+	<div class="container">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">Chat com Socket.io com NodeJS</h3>
+			</div>
+			<div class="panel-body">
+				<div id="messages" style="display: none;"></div>
+				<form onsubmit="return addMessage(this);" style="display: none;" id="frmMessage">
+					<div class="form-group">
+						<label for="text">Mensagem</label>
+						<textarea id="text" class="form-control" placeholder="Messagem..."></textarea>
+					</div>
+					<input type="submit" class="btn btn-default" value="Enviar" />
+				</form>
+				<form onsubmit="return entrar(this);" id="frmEntrar">
+					<div class="field">
+						<label for="nickname">Apelido:</label>
+						<input type="text" id="nickname" name="nickname" value="" placeholder="Apelido" />
+					</div>
+					<input type="submit" class="btn btn-default" value="Entrar" />
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
